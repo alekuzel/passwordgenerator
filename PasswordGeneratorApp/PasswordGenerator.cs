@@ -59,3 +59,7 @@ namespace PasswordGeneratorApp
         }
     }
 }
+
+
+//Now add password tester 
+//Add name and place name generator. remove password tester

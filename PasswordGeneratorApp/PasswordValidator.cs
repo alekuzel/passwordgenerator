@@ -1,26 +1,40 @@
+using System.Text.RegularExpressions;
+
 namespace PasswordGeneratorApp
 {
     public static class PasswordValidator
     {
-        public static bool IsStrong(string password)
+        public static string EvaluateStrength(string password)
         {
-            // Basic strength validation: Length >= 8, contains upper, lower, digit, special char
-            if (password.Length < 8) return false;
+            if (string.IsNullOrEmpty(password))
+                return "Weak (Empty password)";
 
-            bool hasUpper = false, hasLower = false, hasDigit = false, hasSpecial = false;
+            int score = 0;
 
-            foreach (char c in password)
+            // Length scoring
+            if (password.Length >= 12) score++;
+            if (password.Length >= 16) score++;
+
+            // Check for uppercase
+            if (Regex.IsMatch(password, @"[A-Z]")) score++;
+
+            // Check for lowercase
+            if (Regex.IsMatch(password, @"[a-z]")) score++;
+
+            // Check for digits
+            if (Regex.IsMatch(password, @"\d")) score++;
+
+            // Check for special characters
+            if (Regex.IsMatch(password, @"[\W_]")) score++;
+
+            // Score interpretation
+            return score switch
             {
-                if (char.IsUpper(c)) hasUpper = true;
-                else if (char.IsLower(c)) hasLower = true;
-                else if (char.IsDigit(c)) hasDigit = true;
-                else hasSpecial = true;
-
-                if (hasUpper && hasLower && hasDigit && hasSpecial)
-                    return true;
-            }
-
-            return false;
+                <= 2 => "Weak",
+                3 => "Moderate",
+                4 => "Strong",
+                _ => "Very Strong"
+            };
         }
     }
 }

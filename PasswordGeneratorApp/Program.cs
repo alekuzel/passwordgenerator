@@ -1,4 +1,6 @@
 using System;
+using PasswordGeneratorApp.Models;
+
 
 namespace PasswordGeneratorApp
 {
@@ -44,7 +46,7 @@ namespace PasswordGeneratorApp
                         break;
 
                     case "6":
-                        Console.WriteLine("Goodbye!");
+                        Console.WriteLine("See you!");
                         return;
 
                     default:
@@ -86,7 +88,7 @@ namespace PasswordGeneratorApp
 
                 if (saveChoice == "yes")
                 {
-                    PasswordManager.SavePassword(password);
+                    DataManager.SavePassword(password);
                 }
             }
             catch (Exception ex)
@@ -116,16 +118,55 @@ namespace PasswordGeneratorApp
             }
         }
 
-        private static void GenerateGeographicalNameFlow()
-        {
-            Console.Write("How many geographical names would you like to generate? ");
-            int count = int.Parse(Console.ReadLine());
+       private static void GenerateGeographicalNameFlow()
+{
+    Console.Write("How many geographical names would you like to generate? ");
+    int count = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("\nGenerated Geographical Names:");
-            for (int i = 0; i < count; i++)
+    Console.WriteLine("\nGenerated Geographical Names:");
+    for (int i = 0; i < count; i++)
+    {
+        string name = GeoNameGenerator.GenerateName();
+        Console.WriteLine(name);
+
+        Console.Write("Would you like to save this geographical name? (yes/no): ");
+        string saveChoice = Console.ReadLine().Trim().ToLower();
+
+        if (saveChoice == "yes")
+        {
+            var entry = new GeoName
             {
-                Console.WriteLine(GeoNameGenerator.GenerateName());
+                Name = name,
+                CreatedAt = DateTime.Now
+            };
+            SaveGeoName(entry); 
+        }
+    }
+}
+
+            private const string GeoNameFile = "saved_geo_names.txt";
+
+        public static void SaveGeoName(GeoName entry)
+        {
+            File.AppendAllText(GeoNameFile, $"{entry.CreatedAt:u} | {entry.Name}{Environment.NewLine}");
+            Console.WriteLine("Geographical name saved successfully.");
+        }
+
+        public static void LoadGeoNames()
+        {
+            if (File.Exists(GeoNameFile))
+            {
+                Console.WriteLine("Saved Geographical Names:");
+                foreach (var line in File.ReadAllLines(GeoNameFile))
+                {
+                    Console.WriteLine(line);
+                }
             }
+            else
+            {
+                Console.WriteLine("No saved geographical names found.");
+            }
+
         }
 
         private static void GenerateStoryPlotFlow()
@@ -141,3 +182,5 @@ namespace PasswordGeneratorApp
         }
     }
 }
+
+

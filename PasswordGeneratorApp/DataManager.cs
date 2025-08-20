@@ -29,8 +29,41 @@ namespace PasswordGeneratorApp
             else
             {
                 Console.WriteLine("No saved passwords found.");
+            
             }
         }
+
+        private static void GenerateGeographicalNameFlow()
+{
+    Console.Write("How many geographical names would you like to generate? ");
+    int count = int.Parse(Console.ReadLine());
+
+    string[] generatedNames = new string[count];
+
+    Console.WriteLine("\nGenerated Geographical Names:");
+    for (int i = 0; i < count; i++)
+    {
+        generatedNames[i] = GeoNameGenerator.GenerateName();
+        Console.WriteLine($"{i + 1}. {generatedNames[i]}");
+    }
+
+    Console.Write("\nWould you like to save these names? (yes/no): ");
+    string saveChoice = Console.ReadLine().Trim().ToLower();
+
+    if (saveChoice == "yes")
+    {
+        foreach (var name in generatedNames)
+        {
+            var entry = new GeoName
+            {
+                Name = name,
+                CreatedAt = DateTime.Now
+            };
+            SaveGeoName(entry);
+        }
+    }
+}
+
 
         private const string GeoNameFile = "saved_geo_names.txt";
 

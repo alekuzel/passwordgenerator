@@ -57,6 +57,8 @@ namespace PasswordGeneratorApp
             }
             return new string(array);
         }
+
+        
     }
 }
 

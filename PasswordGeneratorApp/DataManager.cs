@@ -29,40 +29,41 @@ namespace PasswordGeneratorApp
             else
             {
                 Console.WriteLine("No saved passwords found.");
-            
+
             }
         }
 
+
         private static void GenerateGeographicalNameFlow()
-{
-    Console.Write("How many geographical names would you like to generate? ");
-    int count = int.Parse(Console.ReadLine());
-
-    string[] generatedNames = new string[count];
-
-    Console.WriteLine("\nGenerated Geographical Names:");
-    for (int i = 0; i < count; i++)
-    {
-        generatedNames[i] = GeoNameGenerator.GenerateName();
-        Console.WriteLine($"{i + 1}. {generatedNames[i]}");
-    }
-
-    Console.Write("\nWould you like to save these names? (yes/no): ");
-    string saveChoice = Console.ReadLine().Trim().ToLower();
-
-    if (saveChoice == "yes")
-    {
-        foreach (var name in generatedNames)
         {
-            var entry = new GeoName
+            Console.Write("How many geographical names would you like to generate? ");
+            int count = int.Parse(Console.ReadLine());
+
+            string[] generatedNames = new string[count];
+
+            Console.WriteLine("\nGenerated Geographical Names:");
+            for (int i = 0; i < count; i++)
             {
-                Name = name,
-                CreatedAt = DateTime.Now
-            };
-            SaveGeoName(entry);
+                generatedNames[i] = GeoNameGenerator.GenerateName();
+                Console.WriteLine($"{i + 1}. {generatedNames[i]}");
+            }
+
+            Console.Write("\nWould you like to save these names? (yes/no): ");
+            string saveChoice = Console.ReadLine().Trim().ToLower();
+
+            if (saveChoice == "yes")
+            {
+                foreach (var name in generatedNames)
+                {
+                    var entry = new GeoName
+                    {
+                        Name = name,
+                        CreatedAt = DateTime.Now
+                    };
+                    SaveGeoName(entry);
+                }
+            }
         }
-    }
-}
 
 
         private const string GeoNameFile = "saved_geo_names.txt";
@@ -86,6 +87,31 @@ namespace PasswordGeneratorApp
             else
             {
                 Console.WriteLine("No saved geographical names found.");
+            }
+        }
+
+        //path to file
+        private const string FictionalNameFile = "saved_fictional_names.txt";
+
+        public static void SaveFictionalName(FictionalName entry)
+        {
+            File.AppendAllText(FictionalNameFile, $"{entry.CreatedAt:u} | {entry.Name}{Environment.NewLine}");
+            Console.WriteLine("Fictional name saved successfully.");
+        }
+        
+        public static void LoadFictionalNames()
+        {
+            if (File.Exists(FictionalNameFile))
+            {
+                Console.WriteLine("Saved Fictional Names:");
+                foreach (var line in File.ReadAllLines(FictionalNameFile))
+                {
+                    Console.WriteLine(line);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No saved fictional names found.");
             }
         }
     }

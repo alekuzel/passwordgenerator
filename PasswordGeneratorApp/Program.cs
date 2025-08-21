@@ -105,7 +105,6 @@ namespace PasswordGeneratorApp
             string strength = PasswordValidator.EvaluateStrength(password);
             Console.WriteLine($"Password Strength: {strength}");
         }
-
         private static void GenerateFictionalNameFlow()
         {
             Console.Write("How many names would you like to generate? ");
@@ -114,37 +113,65 @@ namespace PasswordGeneratorApp
             Console.WriteLine("\nGenerated Names:");
             for (int i = 0; i < count; i++)
             {
-                Console.WriteLine(FictionalNameGenerator.GenerateName());
+                // Generate a fictional name
+                string name = FictionalNameGenerator.GenerateName();
+                Console.WriteLine($"- {name}");
+
+                // Ask user if they want to save this one
+                Console.Write("Would you like to save this name? (yes/no): ");
+                string saveChoice = Console.ReadLine().Trim().ToLower();
+
+                if (saveChoice == "yes")
+                {
+                    // Create a FictionalName model instance and save it
+                    var entry = new FictionalName
+                    {
+                        Name = name,
+                        CreatedAt = DateTime.Now
+                    };
+
+                    SaveFictionalName(entry);
+                }
             }
         }
 
-       private static void GenerateGeographicalNameFlow()
-{
-    Console.Write("How many geographical names would you like to generate? ");
-    int count = int.Parse(Console.ReadLine());
+        //path to file
+        private const string FictionalNameFile = "saved_fictional_names.txt";
 
-    Console.WriteLine("\nGenerated Geographical Names:");
-    for (int i = 0; i < count; i++)
-    {
-        string name = GeoNameGenerator.GenerateName();
-        Console.WriteLine(name);
-
-        Console.Write("Would you like to save this geographical name? (yes/no): ");
-        string saveChoice = Console.ReadLine().Trim().ToLower();
-
-        if (saveChoice == "yes")
+        public static void SaveFictionalName(FictionalName entry)
         {
-            var entry = new GeoName
-            {
-                Name = name,
-                CreatedAt = DateTime.Now
-            };
-            SaveGeoName(entry); 
+            File.AppendAllText(FictionalNameFile, $"{entry.CreatedAt:u} | {entry.Name}{Environment.NewLine}");
+            Console.WriteLine("Fictional name saved successfully.");
         }
-    }
-}
 
-            private const string GeoNameFile = "saved_geo_names.txt";
+
+        private static void GenerateGeographicalNameFlow()
+        {
+            Console.Write("How many geographical names would you like to generate? ");
+            int count = int.Parse(Console.ReadLine());
+
+            Console.WriteLine("\nGenerated Geographical Names:");
+            for (int i = 0; i < count; i++)
+            {
+                string name = GeoNameGenerator.GenerateName();
+                Console.WriteLine(name);
+
+                Console.Write("Would you like to save this geographical name? (yes/no): ");
+                string saveChoice = Console.ReadLine().Trim().ToLower();
+
+                if (saveChoice == "yes")
+                {
+                    var entry = new GeoName
+                    {
+                        Name = name,
+                        CreatedAt = DateTime.Now
+                    };
+                    SaveGeoName(entry);
+                }
+            }
+        }
+
+        private const string GeoNameFile = "saved_geo_names.txt";
 
         public static void SaveGeoName(GeoName entry)
         {
@@ -168,6 +195,10 @@ namespace PasswordGeneratorApp
             }
 
         }
+
+        
+
+        
 
         private static void GenerateStoryPlotFlow()
         {

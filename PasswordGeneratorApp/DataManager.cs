@@ -34,36 +34,15 @@ namespace PasswordGeneratorApp
         }
 
 
-        private static void GenerateGeographicalNameFlow()
+        //path to file
+        private const string FictionalNameFile = "saved_fictional_names.txt";
+
+        public static void SaveFictionalName(FictionalName entry)
         {
-            Console.Write("How many geographical names would you like to generate? ");
-            int count = int.Parse(Console.ReadLine());
-
-            string[] generatedNames = new string[count];
-
-            Console.WriteLine("\nGenerated Geographical Names:");
-            for (int i = 0; i < count; i++)
-            {
-                generatedNames[i] = GeoNameGenerator.GenerateName();
-                Console.WriteLine($"{i + 1}. {generatedNames[i]}");
-            }
-
-            Console.Write("\nWould you like to save these names? (yes/no): ");
-            string saveChoice = Console.ReadLine().Trim().ToLower();
-
-            if (saveChoice == "yes")
-            {
-                foreach (var name in generatedNames)
-                {
-                    var entry = new GeoName
-                    {
-                        Name = name,
-                        CreatedAt = DateTime.Now
-                    };
-                    SaveGeoName(entry);
-                }
-            }
+            File.AppendAllText(FictionalNameFile, $"{entry.CreatedAt:u} | {entry.Name}{Environment.NewLine}");
+            Console.WriteLine("Fictional name saved successfully.");
         }
+
 
 
         private const string GeoNameFile = "saved_geo_names.txt";
@@ -90,15 +69,7 @@ namespace PasswordGeneratorApp
             }
         }
 
-        //path to file
-        private const string FictionalNameFile = "saved_fictional_names.txt";
 
-        public static void SaveFictionalName(FictionalName entry)
-        {
-            File.AppendAllText(FictionalNameFile, $"{entry.CreatedAt:u} | {entry.Name}{Environment.NewLine}");
-            Console.WriteLine("Fictional name saved successfully.");
-        }
-        
         public static void LoadFictionalNames()
         {
             if (File.Exists(FictionalNameFile))
@@ -114,5 +85,35 @@ namespace PasswordGeneratorApp
                 Console.WriteLine("No saved fictional names found.");
             }
         }
+
+        // Path to the file where story plots will be saved
+        private const string StoryPlotFile = "saved_story_plots.txt";
+
+        public static void SaveStoryPlot(StoryPlot entry)
+        {
+            // Append a new line to the file with the date/time and the plot text
+            File.AppendAllText(StoryPlotFile, $"{entry.CreatedAt:u} | {entry.Plot}{Environment.NewLine}");
+
+            Console.WriteLine("Story plot saved successfully.");
+        }
+
+        public static void LoadStoryPlots()
+        {
+            if (File.Exists(StoryPlotFile))
+            {
+                Console.WriteLine("Saved Story Plots:");
+                foreach (var line in File.ReadAllLines(StoryPlotFile))
+                {
+                    Console.WriteLine(line);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No saved story plots found.");
+            }
+        }
+
+
+
     }
 }

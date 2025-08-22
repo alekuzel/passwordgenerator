@@ -18,9 +18,13 @@ namespace PasswordGeneratorApp
                 Console.WriteLine("3. Generate a fictional character name");
                 Console.WriteLine("4. Generate a geographical name");
                 Console.WriteLine("5. Generate a story plot");
-                Console.WriteLine("6. Exit");
+                Console.WriteLine("6. Show saved passwords");   
+                Console.WriteLine("7. Show saved fictional names");
+                Console.WriteLine("8. Show saved geographical names");
+                Console.WriteLine("9. Show saved story plots");
+                Console.WriteLine("10. Exit");
 
-                Console.Write("Enter your choice (1-6): ");
+                Console.Write("Enter your choice (1-10): ");
                 string choice = Console.ReadLine();
 
                 switch (choice)
@@ -44,10 +48,26 @@ namespace PasswordGeneratorApp
                     case "5":
                         GenerateStoryPlotFlow();
                         break;
-
                     case "6":
+                        DataManager.LoadPasswords();
+                        break;
+                    case "7":
+                        DataManager.LoadFictionalNames();
+                        break;
+
+                    case "8":
+                        DataManager.LoadStoryPlots();
+                        break;
+
+
+                    case "9":
+                        DataManager.LoadGeoNames();
+                        break;
+
+                    case "10":
                         Console.WriteLine("See you!");
                         return;
+                        
 
                     default:
                         Console.WriteLine("Invalid choice. Please try again.");
@@ -123,25 +143,14 @@ namespace PasswordGeneratorApp
 
                 if (saveChoice == "yes")
                 {
-                    // Create a FictionalName model instance and save it
-                    var entry = new FictionalName
+                    // Call DataManager here
+                    DataManager.SaveFictionalName(new FictionalName
                     {
                         Name = name,
                         CreatedAt = DateTime.Now
-                    };
-
-                    SaveFictionalName(entry);
+                    });
                 }
             }
-        }
-
-        //path to file
-        private const string FictionalNameFile = "saved_fictional_names.txt";
-
-        public static void SaveFictionalName(FictionalName entry)
-        {
-            File.AppendAllText(FictionalNameFile, $"{entry.CreatedAt:u} | {entry.Name}{Environment.NewLine}");
-            Console.WriteLine("Fictional name saved successfully.");
         }
 
 
@@ -161,57 +170,39 @@ namespace PasswordGeneratorApp
 
                 if (saveChoice == "yes")
                 {
-                    var entry = new GeoName
+                    DataManager.SaveGeoName(new GeoName
                     {
                         Name = name,
                         CreatedAt = DateTime.Now
-                    };
-                    SaveGeoName(entry);
+                    });
+                }
                 }
             }
-        }
-
-        private const string GeoNameFile = "saved_geo_names.txt";
-
-        public static void SaveGeoName(GeoName entry)
-        {
-            File.AppendAllText(GeoNameFile, $"{entry.CreatedAt:u} | {entry.Name}{Environment.NewLine}");
-            Console.WriteLine("Geographical name saved successfully.");
-        }
-
-        public static void LoadGeoNames()
-        {
-            if (File.Exists(GeoNameFile))
-            {
-                Console.WriteLine("Saved Geographical Names:");
-                foreach (var line in File.ReadAllLines(GeoNameFile))
-                {
-                    Console.WriteLine(line);
-                }
-            }
-            else
-            {
-                Console.WriteLine("No saved geographical names found.");
-            }
-
-        }
-
         
 
-        
+       private static void GenerateStoryPlotFlow()
+{
+    Console.WriteLine("\nGenerated Story Plot:");
+    string plot = StoryPlotGenerator.GeneratePlot();
+    Console.WriteLine($"- {plot}");
 
-        private static void GenerateStoryPlotFlow()
+    Console.Write("Would you like to save this plot? (yes/no): ");
+    string saveChoice = Console.ReadLine().Trim().ToLower();
+
+    if (saveChoice == "yes")
+    {
+        DataManager.SaveStoryPlot(new StoryPlot
         {
-            Console.Write("How many story plots would you like to generate? ");
-            int count = int.Parse(Console.ReadLine());
-
-            Console.WriteLine("\nGenerated Story Plots:");
-            for (int i = 0; i < count; i++)
-            {
-                Console.WriteLine($"- {StoryPlotGenerator.GeneratePlot()}");
-            }
-        }
+            Plot = plot,
+            CreatedAt = DateTime.Now
+        });
     }
 }
+
+        
+  
+        }
+    }
+
 
 

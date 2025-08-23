@@ -9,7 +9,7 @@ namespace PasswordGeneratorApp
         public int UpperCaseCount { get; set; }
         public int NumberCount { get; set; }
         public int SpecialCharCount { get; set; }
-
+        //characters to be used to generate the passwords
         private static readonly string UpperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         private static readonly string Numbers = "0123456789";
         private static readonly string SpecialChars = "!@#$%^&*()";
@@ -19,25 +19,25 @@ namespace PasswordGeneratorApp
         {
             if (UpperCaseCount + NumberCount + SpecialCharCount > Length)
             {
-                throw new ArgumentException("Sum of character type counts exceeds total length.");
+                throw new ArgumentException("Sum of character type counts exceeds total length.");//error message
             }
 
             StringBuilder password = new StringBuilder();
             Random random = new Random();
 
-            // Add required uppercase letters
+            // Add required number of uppercases
             for (int i = 0; i < UpperCaseCount; i++)
                 password.Append(UpperCaseChars[random.Next(UpperCaseChars.Length)]);
 
-            // Add required numbers
+            // Add required number of digits
             for (int i = 0; i < NumberCount; i++)
                 password.Append(Numbers[random.Next(Numbers.Length)]);
 
-            // Add required special characters
+            // Add required number ofspecial characters
             for (int i = 0; i < SpecialCharCount; i++)
                 password.Append(SpecialChars[random.Next(SpecialChars.Length)]);
 
-            // Fill the rest with lowercase letters
+            // the rest will be lowercase letters
             int remaining = Length - password.Length;
             for (int i = 0; i < remaining; i++)
                 password.Append(LowerCaseChars[random.Next(LowerCaseChars.Length)]);
@@ -61,7 +61,3 @@ namespace PasswordGeneratorApp
         
     }
 }
-
-
-//Now add password tester 
-//Add name and place name generator. remove password tester

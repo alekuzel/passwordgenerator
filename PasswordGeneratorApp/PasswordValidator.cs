@@ -15,10 +15,10 @@ namespace PasswordGeneratorApp
             if (password.Length >= 12) score++;
             if (password.Length >= 16) score++;
 
-            // Check for uppercase
+            // Check if there are uppercase letters
             if (Regex.IsMatch(password, @"[A-Z]")) score++;
 
-            // Check for lowercase
+            // Check if there are lowercase letters
             if (Regex.IsMatch(password, @"[a-z]")) score++;
 
             // Check for digits
@@ -33,7 +33,7 @@ namespace PasswordGeneratorApp
                 <= 2 => "Weak",
                 3 => "Moderate",
                 4 => "Strong",
-                _ => "Very Strong"
+                5 => "Very Strong"
             };
         }
     }

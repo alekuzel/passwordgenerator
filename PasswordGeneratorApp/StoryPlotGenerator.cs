@@ -2,8 +2,10 @@ using System;
 
 namespace PasswordGeneratorApp
 {
+    // Static  class for generating story plots
     public static class StoryPlotGenerator
     {
+        // Settings for stories
         private static readonly string[] Settings =
         {
             "a bustling city in the year 2120",
@@ -14,6 +16,7 @@ namespace PasswordGeneratorApp
             "a parallel universe where time flows backward"
         };
 
+        // Protagonists for story plots
         private static readonly string[] MainCharacters =
         {
             "a young orphan with mysterious powers",
@@ -24,6 +27,7 @@ namespace PasswordGeneratorApp
             "a scientist on the brink of a major discovery"
         };
 
+        // Motivations of the protagonists
         private static readonly string[] Goals =
         {
             "find their missing sibling",
@@ -34,6 +38,7 @@ namespace PasswordGeneratorApp
             "bring justice to a corrupt ruler"
         };
 
+        // Challenges to be faced by the protagonists
         private static readonly string[] Conflicts =
         {
             "a shadowy organization is hunting them",
@@ -44,6 +49,7 @@ namespace PasswordGeneratorApp
             "they uncover a shocking truth about themselves"
         };
 
+        // Story endings
         private static readonly string[] Resolutions =
         {
             "they triumph against all odds and become a legend",
@@ -54,16 +60,17 @@ namespace PasswordGeneratorApp
             "they disappear, leaving their fate a mystery"
         };
 
+        private static readonly Random random = new Random();
         public static string GeneratePlot()
         {
-            Random random = new Random();
-
+            // Select a random element from each array above
             string setting = Settings[random.Next(Settings.Length)];
             string character = MainCharacters[random.Next(MainCharacters.Length)];
             string goal = Goals[random.Next(Goals.Length)];
             string conflict = Conflicts[random.Next(Conflicts.Length)];
             string resolution = Resolutions[random.Next(Resolutions.Length)];
 
+            // Combine elements to one plot
             return $"In {setting}, {character} must {goal}. However, {conflict}. In the end, {resolution}.";
         }
     }

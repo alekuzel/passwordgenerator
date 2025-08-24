@@ -9,7 +9,7 @@ namespace PasswordGeneratorApp
         static void Main(string[] args)
         {
             // menu to be shown in the terminal
-            Console.WriteLine("Welcome to the Ultimate Generator App!");
+            Console.WriteLine("Welcome to the Generator App!");
   
             while (true)
             {
@@ -59,11 +59,11 @@ namespace PasswordGeneratorApp
                         break;
 
                     case "8":
-                        DataManager.LoadStoryPlots(); 
+                        DataManager.LoadGeoNames(); 
                         break;
 
                     case "9":
-                        DataManager.LoadGeoNames();  
+                        DataManager.LoadStoryPlots();
                         break;
 
                     case "10":
@@ -132,10 +132,8 @@ namespace PasswordGeneratorApp
             Console.WriteLine($"Password Strength: {strength}");
         }
 
-        /// <summary>
-        /// Handles fictional name generation workflow
-        /// Generates multiple names and offers individual saving options
-        /// </summary>
+
+     
         private static void GenerateFictionalNameFlow()
         {
             Console.Write("How many names would you like to generate? ");
@@ -164,10 +162,7 @@ namespace PasswordGeneratorApp
             }
         }
 
-        /// <summary>
-        /// Handles geographical name generation workflow
-        /// Generates multiple geographical names with saving options
-        /// </summary>
+
         private static void GenerateGeographicalNameFlow()
         {
             Console.Write("How many geographical names would you like to generate? ");
@@ -196,10 +191,6 @@ namespace PasswordGeneratorApp
             }
         }
 
-        /// <summary>
-        /// Handles story plot generation workflow
-        /// Generates a single story plot and offers saving option
-        /// </summary>
         private static void GenerateStoryPlotFlow()
         {
             Console.WriteLine("\nGenerated Story Plot:");

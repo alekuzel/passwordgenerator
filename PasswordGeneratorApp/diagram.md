@@ -1,4 +1,4 @@
-# UML Class Diagram – Ultimate Generator App
+# UML Class Diagram – Generator App
 
 ```mermaid
 classDiagram
